@@ -4,7 +4,7 @@ A SOC-style threat detection and correlation lab built using Kali Linux, Windows
 
 ---
 
-## Project Overview
+## Project Overview 
 
 This project simulates a centralized SOC (Security Operations Center) monitoring environment across three virtual machines. Snort 3 detects network reconnaissance via custom IDS rules. Sysmon collects Windows endpoint telemetry including process creation, command execution, and PowerShell activity. A Python correlation engine parses both sources, filters noise, decodes encoded PowerShell commands, reconstructs a chronological incident timeline, and generates a structured analysis report — replicating core Tier 1 SOC analyst workflow.
 
