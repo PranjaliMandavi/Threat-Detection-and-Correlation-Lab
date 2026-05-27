@@ -1,8 +1,0 @@
-# Rule 1: ICMP Ping Flood Detection
-alert icmp any any -> [TARGET_NET] any (itype:8; detection_filter:track by_src, count 20, seconds 5; msg:"[Lab] ICMP Ping Flood Detected"; sid:1000001;)
-
-# Rule 2: SSH Attempt Detected
-alert tcp any any -> [VICTIM_IP] 22 (msg:"[Lab] SSH Attempt Detected"; sid:1000002;)
-
-# Rule 3: TCP SYN Scan (Stealth Port Scan)
-alert tcp any any -> [TARGET_NET] any (flags:S; detection_filter:track by_src, count 20, seconds 10; msg:"[Lab] SYN Scan"; sid:1000003;)
