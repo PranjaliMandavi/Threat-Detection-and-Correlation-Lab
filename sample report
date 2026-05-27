@@ -1,0 +1,112 @@
+====================================================
+            SOC ACTIVITY ANALYSIS REPORT
+====================================================
+Report Generated:
+2026-05-28 03:52:56
+----------------------------------------------------
+SUMMARY
+----------------------------------------------------
+  Attacker IPs Identified  : 1
+  Target IPs Identified    : 1
+  TCP SYN Packets Detected : 1971
+  Suspicious Apps Found    : 8
+  Suspicious Commands      : 10
+  Timeline Events          : 22
+----------------------------------------------------
+Observed Attacker IPs:
+- <attacker-ip>
+
+Observed Target IPs:
+- <target-ip>
+----------------------------------------------------
+Observed Network Activity:
+- TCP SYN packets detected: 1971
+- Possible reconnaissance / port scanning activity detected
+----------------------------------------------------
+Observed Suspicious Applications:
+- cmd.exe
+- ipconfig.exe
+- powershell.exe
+- rundll32.exe
+- schtasks.exe
+- taskkill.exe
+- tasklist.exe
+- whoami.exe
+----------------------------------------------------
+Observed Suspicious Commands:
+- tasklist
+- cmd.exe
+- ipconfig
+- whoami
+- powershell.exe -enc <base64-encoded-command>
+  [Decoded PowerShell] --> echo test
+- powershell.exe
+- powershell.exe -ExecutionPolicy Restricted -Command Write-Host 'Final result: 1';
+- cmd.exe /q /c del /q
+- schtasks.exe -create -tn
+- schtasks.exe -delete -tn
+----------------------------------------------------
+INCIDENT TIMELINE:
+- Network Activity Detected --> TCP SYN scanning activity detected
+- 2026-05-27 19:06:36.038 --> powershell.exe launched
+- 2026-05-27 19:07:59.043 --> powershell.exe -enc <base64-encoded-command>
+  [Decoded] --> echo test
+- 2026-05-27 19:14:57.220 --> cmd.exe launched
+- 2026-05-27 19:15:01.223 --> ipconfig
+- 2026-05-27 20:44:27.350 --> powershell.exe -enc <base64-encoded-command>
+  [Decoded] --> echo test
+- 2026-05-27 20:44:40.363 --> whoami
+- 2026-05-27 20:44:59.172 --> ipconfig
+- 2026-05-27 20:45:03.484 --> tasklist
+- 2026-05-27 20:50:15.818 --> cmd.exe /c RD /S /Q <artifact-path>
+- 2026-05-27 20:50:15.895 --> schtasks.exe -delete -tn
+- 2026-05-27 20:50:15.990 --> schtasks.exe -delete -tn
+- 2026-05-27 20:50:16.044 --> schtasks.exe -create -tn
+- 2026-05-27 21:01:03.509 --> cmd.exe /q /c del /q
+- 2026-05-27 21:01:03.531 --> cmd.exe /q /c del /q
+- 2026-05-27 21:04:22.432 --> powershell.exe -ExecutionPolicy Restricted -Command Write-Host 'Final result: 1';
+- 2026-05-27 21:38:15.084 --> powershell.exe launched
+- 2026-05-27 21:38:21.412 --> powershell.exe -enc <base64-encoded-command>
+  [Decoded] --> echo test
+- 2026-05-27 21:38:26.820 --> cmd.exe launched
+- 2026-05-27 21:38:32.216 --> whoami
+- 2026-05-27 21:38:40.515 --> ipconfig
+- 2026-05-27 21:38:43.437 --> tasklist
+----------------------------------------------------
+Behavior Analysis:
+High-volume TCP SYN traffic indicates systematic port scanning consistent
+with pre-attack reconnaissance activity.
+
+Encoded PowerShell execution was observed. Attackers commonly use base64
+encoding to obfuscate malicious commands and evade basic detection.
+
+schtasks.exe was executed, which may indicate an attempt to establish
+persistence through scheduled task creation.
+
+System enumeration commands detected (whoami, ipconfig, tasklist). These
+are commonly used by attackers to map the target environment after initial
+access.
+
+----------------------------------------------------
+Recommendations:
+- Investigate repeated scanning activity from flagged source IP
+- Review and decode all encoded PowerShell commands
+- Audit scheduled tasks for unauthorized entries
+- Investigate system enumeration — may indicate post-access recon
+- Correlate endpoint and network telemetry across sessions
+- Archive logs for forensic retention
+----------------------------------------------------
+Conclusion:
+The SOC monitoring environment successfully
+correlated endpoint telemetry and network alerts
+to identify suspicious activity patterns.
+
+The project demonstrated:
+- Endpoint monitoring using Sysmon
+- Intrusion detection using Snort 3
+- Packet analysis using Wireshark
+- Event correlation and automated reporting
+- Chronological incident reconstruction
+- Encoded PowerShell detection and decoding
+- Dynamic behavior analysis
+====================================================
