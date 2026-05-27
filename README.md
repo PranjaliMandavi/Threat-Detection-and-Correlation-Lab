@@ -89,7 +89,7 @@ Attack Simulation     →      Sysmon Endpoint         →   SOC Monitoring Serv
 ## Snort Custom Rule
 
 ```
-alert tcp any any -> 192.168.204.0/24 any
+alert tcp any any -> <your-lab-subnet>/24 any
 (flags:S; detection_filter:track by_src, count 20, seconds 10;
 msg:"[Lab] SYN Scan"; sid:1000003;)
 ```
@@ -164,7 +164,11 @@ Threat-Detection-and-Correlation-Lab/
 ### Prerequisites
 - Ubuntu VM with Snort 3 installed
 - Windows VM with Sysmon installed and configured
-- VMware Shared Folder mounted at `/mnt/hgfs/PLACED_2026/`
+- VMware Shared Folder configured between host, Windows VM, and Ubuntu VM
+  - In this lab the shared folder is named **`PLACED_2026`** — this is a VMware Workstation shared folder created on the host machine and mounted automatically on both VMs
+  - Windows VM accesses it at: `\\vmware-host\Shared Folders\PLACED_2026\`
+  - Ubuntu VM accesses it at: `/mnt/hgfs/PLACED_2026/` (mount with `sudo vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other`)
+  - Inside it, create two subfolders: `logs/` and `reports/`
 
 ### Step 1 — Start Snort on Ubuntu
 ```bash
@@ -175,7 +179,7 @@ sudo snort -c /usr/local/etc/snort/snort.lua \
 
 ### Step 2 — Simulate Attack from Kali
 ```bash
-nmap -sS 192.168.204.128
+nmap -sS <target-ip>
 ```
 
 ### Step 3 — Export Sysmon Logs from Windows
