@@ -89,12 +89,26 @@ Attack Simulation     →      Sysmon Endpoint         →   SOC Monitoring Serv
 ## Snort Custom Rule
 
 ```
+# Rule 1 — ICMP Ping Flood Detection
+alert icmp any any -> <your-lab-subnet>/24 any
+(itype:8; detection_filter:track by_src, count 20, seconds 5;
+msg:"[Lab] ICMP Ping Flood Detected"; sid:1000001;)
+
+# Rule 2 — SSH Attempt Detection
+alert tcp any any -> <target-ip> 22
+(msg:"[Lab] SSH Attempt Detected"; sid:1000002;)
+
+# Rule 3 — TCP SYN Scan Detection
 alert tcp any any -> <your-lab-subnet>/24 any
 (flags:S; detection_filter:track by_src, count 20, seconds 10;
 msg:"[Lab] SYN Scan"; sid:1000003;)
 ```
 
-Detects TCP SYN scan activity by tracking source-based packet rate — fires when more than 20 SYN packets are seen from the same source within 10 seconds.
+| Rule | What It Detects | Threshold |
+|---|---|---|
+| `sid:1000001` | ICMP ping flood — potential DoS or sweep activity | 20 ICMP type-8 packets from same source in 5 seconds |
+| `sid:1000002` | SSH connection attempts to the monitored endpoint | Any TCP connection to port 22 |
+| `sid:1000003` | TCP SYN scan — reconnaissance / port scanning | 20 SYN packets from same source in 10 seconds |
 
 ---
 
