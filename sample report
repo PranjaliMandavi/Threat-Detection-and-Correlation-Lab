@@ -33,7 +33,7 @@ Observed Suspicious Applications:
 - tasklist.exe
 - whoami.exe
 ----------------------------------------------------
-Observed Suspicious Commands:
+Observed Suspicious Commands: 
 - tasklist
 - cmd.exe
 - ipconfig
